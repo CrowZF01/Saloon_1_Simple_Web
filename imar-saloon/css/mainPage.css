@@ -764,3 +764,206 @@ footer {
   width: 18px;
   height: 18px;
 }
+
+/* --- Hamburger Menu Element Styles (Desktop defaults) --- */
+.menu-toggle-input {
+  display: none;
+}
+
+.menu-toggle-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 1001;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.menu-toggle-btn span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  transition: var(--transition-smooth);
+}
+
+/* --- Mobile Responsive CSS Rules --- */
+
+/* Tablet & Mobile Layout Adjustment for Hero Section (under 991px) */
+@media (max-width: 991px) {
+  .hero {
+    flex-direction: column;
+    gap: 50px;
+    padding: 50px 6%;
+    margin: 30px 4%;
+    text-align: center;
+  }
+
+  .hero-image-wrapper {
+    flex: 0 0 100%;
+    max-width: 180px;
+    width: 100%;
+  }
+
+  .hero-text-wrapper {
+    flex: 0 0 100%;
+    max-width: 100%;
+    align-items: center;
+  }
+
+  .hero-text-wrapper .hero-logo {
+    margin: 0 auto 15px auto;
+  }
+
+  .hero-text-wrapper h1 {
+    font-size: 32px;
+  }
+
+  .hero-buttons {
+    align-self: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .hero-buttons a {
+    flex: 1 1 200px;
+    text-align: center;
+  }
+}
+
+/* Mobile Layout for Header, Menu, Services & Card Rotations (under 768px) */
+@media (max-width: 768px) {
+  header {
+    padding: 10px 20px;
+  }
+
+  /* Show the hamburger menu icon */
+  .menu-toggle-btn {
+    display: flex;
+  }
+
+  /* Transform links container into vertical slide-down dropdown menu */
+  .links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #f7f2ea;
+    border-top: 1px solid rgba(197, 168, 128, 0.15);
+    border-bottom: 2px solid var(--accent-gold);
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    z-index: 999;
+  }
+
+  /* Hide centered Imar Saloon text to avoid overlaps */
+  .links p {
+    display: none !important;
+  }
+
+  .links a {
+    width: 100%;
+    text-align: center;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.1);
+  }
+
+  .links a:last-child {
+    border-bottom: none;
+  }
+
+  /* Checked checkbox state to slide down the menu */
+  .menu-toggle-input:checked ~ .links {
+    max-height: 350px;
+    opacity: 1;
+    padding: 10px 0;
+  }
+
+  /* Checked checkbox state to animate hamburger button to X */
+  .menu-toggle-input:checked + .menu-toggle-btn span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+    background-color: var(--accent-gold);
+  }
+
+  .menu-toggle-input:checked + .menu-toggle-btn span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle-input:checked + .menu-toggle-btn span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+    background-color: var(--accent-gold);
+  }
+
+  /* Section responsive adjustments */
+  .services-section {
+    padding: 40px 20px 20px 20px;
+  }
+
+  .section-header h2 {
+    font-size: 28px;
+  }
+
+  .reviews-section {
+    padding: 20px 20px 30px 20px;
+  }
+
+  .whatsapp-bottom-section {
+    padding: 40px 15px;
+  }
+
+  .whatsapp-bottom-section p {
+    font-size: 14px;
+  }
+
+  .btn-whatsapp-bottom {
+    padding: 14px 28px;
+    font-size: 12px;
+  }
+}
+
+/* Adjust card stacks translation for extra small mobile screens */
+@media (max-width: 575px) {
+  .card-2 {
+    transform: rotate(-8deg) translateX(-35px) translateY(15px) scale(0.85);
+  }
+  .card-3 {
+    transform: rotate(8deg) translateX(35px) translateY(15px) scale(0.85);
+  }
+  
+  .hero-card-stack:hover .card-2 {
+    transform: rotate(-15deg) translateX(-50px) translateY(10px) scale(0.9);
+  }
+  .hero-card-stack:hover .card-3 {
+    transform: rotate(15deg) translateX(50px) translateY(10px) scale(0.9);
+  }
+  
+  .hero-text-wrapper h1 {
+    font-size: 28px;
+  }
+
+  .services-grid {
+    gap: 30px;
+  }
+  
+  .service-card {
+    padding: 30px 20px;
+  }
+  
+  .service-img-wrapper {
+    height: 220px;
+  }
+}
