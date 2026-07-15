@@ -1,0 +1,174 @@
+/* Custom Styles for pricingPage.php */
+
+.pricing-page-main {
+  background-color: var(--bg-cream, #FAF8F5);
+  padding: 40px 20px 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pricing-hero {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.pricing-intro {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #555555;
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 25px auto 0 auto;
+}
+
+/* Luxury Pricing Card */
+.pricing-menu-container {
+  width: 100%;
+  max-width: 700px;
+  background-color: var(--white, #ffffff);
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  border-radius: 8px;
+  padding: 40px 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* Elegant Double Frame Border */
+.pricing-menu-container::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  border: 1px solid rgba(197, 168, 128, 0.2);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.menu-header {
+  text-align: center;
+  margin-bottom: 35px;
+  position: relative;
+  z-index: 2;
+}
+
+.menu-header-logo {
+  height: 90px;
+  width: auto;
+  margin-bottom: 20px;
+  object-fit: contain;
+}
+
+.menu-header h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.menu-header .sub-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: 2px;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+}
+
+/* Menu Image Wrapper */
+.menu-image-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 35px;
+  position: relative;
+  z-index: 2;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(197, 168, 128, 0.15);
+}
+
+.pricing-menu-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* WhatsApp CTA Area */
+.pricing-cta {
+  text-align: center;
+  margin-top: 20px;
+  z-index: 2;
+  position: relative;
+}
+
+.pricing-cta p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--white);
+  background-color: #25d366; /* WhatsApp Green */
+  border: 1px solid #25d366;
+  padding: 16px 36px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: var(--transition-smooth);
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.2);
+}
+
+.btn-whatsapp:hover {
+  background-color: transparent;
+  color: #25d366;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp svg {
+  fill: currentColor;
+  width: 18px;
+  height: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pricing-page-main {
+    padding: 50px 15px 70px 15px;
+  }
+  
+  .pricing-menu-container {
+    padding: 40px 25px;
+    margin-bottom: 30px;
+  }
+
+  .pricing-menu-container::before {
+    top: 8px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+  }
+
+  .menu-header h2 {
+    font-size: 22px;
+    letter-spacing: 3px;
+  }
+}

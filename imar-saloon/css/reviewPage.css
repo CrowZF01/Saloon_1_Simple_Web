@@ -1,0 +1,63 @@
+/* Custom Styles for reviewPage.php */
+
+.review-page-main {
+  background-color: var(--bg-cream, #FAF8F5);
+  min-height: calc(100vh - 80px - 340px); /* Ensures content fills space between header and footer */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 60px 20px;
+}
+
+.review-hero {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.review-intro {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #555555;
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 25px auto 0 auto;
+}
+
+.review-widget-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.widget-wrapper {
+  width: 100%;
+  min-height: 500px; /* Layout placeholder for loading widget */
+  background: var(--white, #ffffff);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(197, 168, 128, 0.15); /* Luxury subtle gold accent border */
+  box-sizing: border-box;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .review-page-main {
+    padding: 50px 15px 70px 15px;
+  }
+  
+  .review-hero {
+    margin-bottom: 30px;
+  }
+  
+  .review-intro {
+    font-size: 14px;
+    margin-top: 15px;
+  }
+  
+  .widget-wrapper {
+    padding: 20px;
+  }
+}
