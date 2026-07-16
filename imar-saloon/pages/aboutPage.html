@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../css/mainPage.css">
     <!-- About page custom styles -->
     <link rel="stylesheet" href="../css/aboutPage.css">
+    <!-- Leaflet CSS for map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 
 <body>
@@ -49,8 +52,14 @@
         <section class="about-story-section">
             <div class="story-content">
                 <h3>Menciptakan Kecantikan & Kepercayaan Diri</h3>
-                <p>Selamat datang di <strong>Imar Saloon</strong>, tempat di mana kreasi tata rambut berpadu dengan seni premium. Didirikan dengan dedikasi tinggi pada kesempurnaan, kami melayani pelanggan kami dengan perpaduan kreativitas, keahlian, dan teknik modern. Tujuan kami bukan hanya mengubah penampilan Anda, tetapi meningkatkan rasa percaya diri Anda.</p>
-                <p>Stylist pilihan kami membawa pengalaman profesional bertahun-tahun dalam memberikan potongan rambut custom, pewarnaan premium, dan sesi spa rambut yang menutrisi. Kami percaya setiap individu memiliki kilau kecantikannya sendiri, dan kami hadir untuk memancarkannya dengan produk berkualitas dan perawatan terbaik.</p>
+                <p>Selamat datang di <strong>Imar Saloon</strong>, tempat di mana kreasi tata rambut berpadu dengan seni
+                    premium. Didirikan dengan dedikasi tinggi pada kesempurnaan, kami melayani pelanggan kami dengan
+                    perpaduan kreativitas, keahlian, dan teknik modern. Tujuan kami bukan hanya mengubah penampilan
+                    Anda, tetapi meningkatkan rasa percaya diri Anda.</p>
+                <p>Stylist pilihan kami membawa pengalaman profesional bertahun-tahun dalam memberikan potongan rambut
+                    custom, pewarnaan premium, dan sesi spa rambut yang menutrisi. Kami percaya setiap individu memiliki
+                    kilau kecantikannya sendiri, dan kami hadir untuk memancarkannya dengan produk berkualitas dan
+                    perawatan terbaik.</p>
             </div>
         </section>
 
@@ -80,16 +89,28 @@
                     <div class="info-icon">📍</div>
                     <h3>Lokasi Kami</h3>
                     <p class="info-highlight">JL. Demakan no 94, Daerah Istimewa Yogyakarta (DIY), Indonesia</p>
-                    <p>Terletak di jantung kawasan budaya dan kreatif Yogyakarta, salon kami menghadirkan suasana hangat untuk kenyamanan Anda.</p>
+                    <div id="map" class="about-map"></div>
                 </div>
 
                 <!-- Contacts Card -->
                 <div class="info-card">
                     <div class="info-icon">📞</div>
                     <h3>Hubungi Kami</h3>
-                    <p class="info-highlight">+62 815-7092-463 <span style="font-size: 13px; font-weight: normal; color: #888;">(WhatsApp Message Only)</span></p>
-                    <p>Memiliki pertanyaan atau ingin memesan tempat? Hubungi kami langsung atau kunjungi kami pada jam operasional:</p>
+                    <p class="info-highlight">+62 815-7092-463 <span
+                            style="font-size: 13px; font-weight: normal; color: #888;">(WhatsApp Message Only)</span>
+                    </p>
+                    <p>Memiliki pertanyaan atau ingin memesan tempat? Hubungi kami langsung atau kunjungi kami pada jam
+                        operasional:</p>
                     <p class="hours-sub">Senin - Minggu: 08:00 - 21:00</p>
+
+                    <a href="https://wa.me/628157092463?text=Halo%20Imar%20Saloon,%20saya%20ingin%20bertanya%20tentang%20layanan..."
+                        target="_blank" class="btn-whatsapp-card">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.388 1.966 13.92 .941 11.99.94c-5.439 0-9.865 4.37-9.87 9.8-.001 1.748.463 3.456 1.343 4.966l-.993 3.626 3.73-.978zM16.51 14.88c-.28-.14-1.658-.818-1.916-.912-.258-.094-.446-.14-.633.14-.188.28-.727.912-.89 1.099-.163.188-.326.21-.606.07-.28-.14-1.182-.435-2.251-1.39-.83-.74-1.39-1.654-1.553-1.934-.163-.28-.018-.431.122-.571.125-.125.28-.326.42-.49.14-.163.188-.28.28-.467.094-.188.047-.35-.023-.49-.07-.14-.633-1.523-.867-2.087-.228-.548-.46-.474-.633-.483-.163-.008-.35-.01-.537-.01-.188 0-.49.07-.747.35-.258.28-.983.959-.983 2.339 0 1.38 1.004 2.71 1.144 2.897.14.188 1.977 3.019 4.79 4.23.67.288 1.192.46 1.6.592.673.214 1.285.184 1.768.111.539-.08 1.658-.677 1.89-1.332.233-.654.233-1.215.163-1.332-.07-.116-.258-.186-.538-.326z" />
+                        </svg>
+                        Hubungi via WhatsApp
+                    </a>
                 </div>
             </div>
         </section>
@@ -99,20 +120,11 @@
             <div class="creator-card">
                 <span class="creator-label">Situs Web Dibuat Oleh</span>
                 <h4 class="creator-name">Developed by Felix</h4>
-                <p class="creator-desc">Membangun web modern dan responsif dengan kode yang bersih, tampilan responsif, dan pengalaman user experience yang nyaman.</p>
+                <p class="creator-desc">Membangun web modern dan responsif dengan kode yang bersih, tampilan responsif,
+                    dan pengalaman user experience yang nyaman.</p>
             </div>
         </section>
 
-        <!-- WhatsApp Bottom CTA Section -->
-        <section class="whatsapp-bottom-section">
-            <p>Ingin melakukan reservasi atau berkonsultasi mengenai layanan kami?</p>
-            <a href="https://wa.me/628157092463?text=Halo%20Imar%20Saloon,%20saya%20ingin%20bertanya%20tentang%20layanan..." target="_blank" class="btn-whatsapp-bottom">
-                <svg viewBox="0 0 24 24">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.388 1.966 13.92 .941 11.99.94c-5.439 0-9.865 4.37-9.87 9.8-.001 1.748.463 3.456 1.343 4.966l-.993 3.626 3.73-.978zM16.51 14.88c-.28-.14-1.658-.818-1.916-.912-.258-.094-.446-.14-.633.14-.188.28-.727.912-.89 1.099-.163.188-.326.21-.606.07-.28-.14-1.182-.435-2.251-1.39-.83-.74-1.39-1.654-1.553-1.934-.163-.28-.018-.431.122-.571.125-.125.28-.326.42-.49.14-.163.188-.28.28-.467.094-.188.047-.35-.023-.49-.07-.14-.633-1.523-.867-2.087-.228-.548-.46-.474-.633-.483-.163-.008-.35-.01-.537-.01-.188 0-.49.07-.747.35-.258.28-.983.959-.983 2.339 0 1.38 1.004 2.71 1.144 2.897.14.188 1.977 3.019 4.79 4.23.67.288 1.192.46 1.6.592.673.214 1.285.184 1.768.111.539-.08 1.658-.677 1.89-1.332.233-.654.233-1.215.163-1.332-.07-.116-.258-.186-.538-.326z"/>
-                </svg>
-                Hubungi via WhatsApp
-            </a>
-        </section>
     </main>
 
     <footer>
@@ -147,7 +159,8 @@
             <div class="footer-col contact-col">
                 <h3>Info Kontak</h3>
                 <p class="contact-item">📍 JL. Demakan no 94, Daerah Istimewa Yogyakarta (DIY), Indonesia</p>
-                <p class="contact-item">📞 +62 815-7092-463 <span style="font-size: 12px; color: #888;">(WhatsApp Message Only)</span></p>
+                <p class="contact-item">📞 +62 815-7092-463 <span style="font-size: 12px; color: #888;">(WhatsApp
+                        Message Only)</span></p>
             </div>
         </div>
 
@@ -155,6 +168,64 @@
             <p>&copy; 2026 Imar Saloon. Hak Cipta Dilindungi.</p>
         </div>
     </footer>
+
+    <!-- Leaflet JS for map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Coordinate for Jl. Demakan, Tegalrejo, Yogyakarta
+            const lat = -7.79188235178292;
+            const lng = 110.34801661048826;
+
+            // Initialize map
+            const map = L.map('map', {
+                center: [lat, lng],
+                zoom: 16,
+                scrollWheelZoom: false // prevents zooming when scrolling the page
+            });
+
+            // Add CartoDB Positron elegant gray/cream tiles
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(map);
+
+            // Custom gold marker design using Leaflet divIcon
+            const goldIcon = L.divIcon({
+                className: 'custom-gold-marker',
+                html: `<div style="
+                    width: 20px; 
+                    height: 20px; 
+                    background-color: #c5a880; 
+                    border: 2px solid #ffffff; 
+                    border-radius: 50%; 
+                    box-shadow: 0 0 10px rgba(197, 168, 128, 0.8);
+                    position: relative;
+                ">
+                    <div style="
+                        width: 6px;
+                        height: 6px;
+                        background-color: #1a1a1a;
+                        border-radius: 50%;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    "></div>
+                </div>`,
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+
+            // Add marker to map
+            const marker = L.marker([lat, lng], { icon: goldIcon }).addTo(map);
+
+            // Bind popup box
+            marker.bindPopup("<strong style='font-family: \"Playfair Display\", serif; color: #c5a880;'>Imar Saloon</strong><br><span style='font-family: \"Montserrat\", sans-serif; font-size: 12px; color: #555;'>JL. Demakan no 94, Yogyakarta</span>").openPopup();
+        });
+    </script>
 </body>
 
 </html>
