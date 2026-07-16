@@ -251,18 +251,6 @@
   position: relative;
 }
 
-.creator-card::before {
-  content: '✦';
-  color: var(--accent-gold);
-  font-size: 20px;
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-cream, #FAF8F5);
-  padding: 0 10px;
-}
-
 .creator-label {
   display: block;
   font-family: 'Montserrat', sans-serif;
