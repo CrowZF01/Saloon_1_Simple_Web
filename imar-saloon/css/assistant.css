@@ -91,7 +91,6 @@
     flex-direction: column;
     z-index: 9998;
     overflow: hidden;
-    transition: var(--assistant-transition);
     transform: scale(0.8) translateY(20px);
     opacity: 0;
     pointer-events: none;
