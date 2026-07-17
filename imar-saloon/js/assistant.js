@@ -10,7 +10,7 @@ import { supabase } from '../connection/supabase.js';
 // ==========================================
 // TODO: API Key OpenRouter akan diambil secara dinamis dari database Supabase
 let OPENROUTER_API_KEY = "";
-const OPENROUTER_MODEL = "google/gemini-2.5-flash:free";
+const OPENROUTER_MODEL = "openai/gpt-4o-mini";
 
 // Cache data dari database
 let cachedServices = [];
