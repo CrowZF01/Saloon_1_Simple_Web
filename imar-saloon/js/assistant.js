@@ -76,9 +76,9 @@ function injectChatWidget() {
 
                 <!-- Quick Replies -->
                 <div class="assistant-quick-replies" id="assistantQuickReplies">
-                    <button class="assistant-quick-reply-btn" data-question="Berapa daftar harga potong rambut?">✂️ Daftar Harga</button>
+                    <button class="assistant-quick-reply-btn" data-question="Daftar harga layanan Imar Saloon">✂️ Daftar Harga</button>
                     <button class="assistant-quick-reply-btn" data-question="Di mana alamat lokasinya?">📍 Alamat & Lokasi</button>
-                    <button class="assistant-quick-reply-btn" data-question="Bagaimana cara reservasi jadwal?">📅 Cara Booking</button>
+                    <button class="assistant-quick-reply-btn" data-question="Bagaimana cara reservasi?">📅 Cara Booking</button>
                     <button class="assistant-quick-reply-btn" data-question="Bisa bayar pakai apa saja?">💳 Pembayaran</button>
                 </div>
 
@@ -406,6 +406,11 @@ async function getAiResponse() {
 
         const data = await response.json();
         let aiReply = data.choices[0].message.content;
+
+        // Format jika ada ** ... ** maka kalimat ditengahnya itu di bold
+        if (aiReply) {
+            aiReply = aiReply.replace(/\*\*([\s\S]*?)\*\*/g, '<strong>$1</strong>');
+        }
 
         // Modifikasi respon untuk menyisipkan tombol WhatsApp secara dinamis jika AI menyarankan reservasi
         const lowerReply = aiReply.toLowerCase();
