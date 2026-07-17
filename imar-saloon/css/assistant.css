@@ -105,6 +105,14 @@
     pointer-events: auto;
 }
 
+/* Hide floating toggle button when chat window is active */
+.assistant-chat-window.active ~ .assistant-chat-toggle {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transform: scale(0.8);
+}
+
 /* Chat Header */
 .assistant-chat-header {
     background-color: #f7f2ea;
