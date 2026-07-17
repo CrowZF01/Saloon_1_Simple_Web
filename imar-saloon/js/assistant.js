@@ -410,6 +410,29 @@ async function getAiResponse() {
         // Format jika ada ** ... ** maka kalimat ditengahnya itu di bold
         if (aiReply) {
             aiReply = aiReply.replace(/\*\*([\s\S]*?)\*\*/g, '<strong>$1</strong>');
+
+            // Format tanda hubung " - " agar menjadi baris baru (kecuali rentang hari/jam)
+            aiReply = aiReply.replace(/(\s+-\s+)/g, (match, p1, offset, string) => {
+                const before = string.slice(Math.max(0, offset - 15), offset).trim();
+                const after = string.slice(offset + match.length, offset + match.length + 15).trim();
+                
+                // Hindari range waktu (misal 08:00 - 21:00)
+                const isTimeRange = /\d{2}[:\.]\d{2}$/.test(before) && /^\d{2}[:\.]\d{2}/.test(after);
+                // Hindari range hari (misal Senin - Minggu)
+                const dayNames = /senin|selasa|rabu|kamis|jumat|sabtu|minggu/i;
+                const isDayRange = dayNames.test(before) && dayNames.test(after);
+                
+                if (isTimeRange || isDayRange) {
+                    return match;
+                }
+                
+                // Hindari duplikasi jika sebelumnya sudah ada tag <br>
+                if (before.endsWith('<br>') || before.endsWith('<br/>') || before.endsWith('<br />')) {
+                    return ' - ';
+                }
+                
+                return '<br>- ';
+            });
         }
 
         // Modifikasi respon untuk menyisipkan tombol WhatsApp secara dinamis jika AI menyarankan reservasi
