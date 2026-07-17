@@ -8,8 +8,8 @@ import { supabase } from '../connection/supabase.js';
 // ==========================================
 // CONFIGURATION (PENGATURAN)
 // ==========================================
-// TODO: Silakan masukkan API Key OpenRouter Anda di bawah ini:
-const OPENROUTER_API_KEY = "YOUR_OPENROUTER_API_KEY_HERE"; 
+// TODO: API Key OpenRouter akan diambil secara dinamis dari database Supabase
+let OPENROUTER_API_KEY = "";
 const OPENROUTER_MODEL = "google/gemini-2.5-flash:free";
 
 // Cache data dari database
@@ -31,81 +31,75 @@ function injectChatWidget() {
     // Gunakan path absolut/relatif yang tepat tergantung di mana file berada
     const isSubPage = window.location.pathname.includes('/pages/');
     link.href = isSubPage ? '../css/assistant.css' : 'css/assistant.css';
+    document.head.appendChild(link);
 
-    // Helper untuk merender widget
-    const renderWidget = () => {
-        // 2. Buat elemen widget chat
-        const widgetContainer = document.createElement('div');
-        widgetContainer.id = 'imar-assistant-widget';
-        
-        // Path aset gambar logo (sesuaikan jika berada di halaman utama atau sub-halaman)
-        const logoSrc = isSubPage ? '../assets/logo_imar.webp' : 'assets/logo_imar.webp';
+    // 2. Buat elemen widget chat
+    const widgetContainer = document.createElement('div');
+    widgetContainer.id = 'imar-assistant-widget';
 
-        widgetContainer.innerHTML = `
-            <!-- Floating Button -->
-            <button class="assistant-chat-toggle" id="assistantToggleBtn" title="Tanya Asisten Virtual">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/>
-                </svg>
-            </button>
+    // Path aset gambar logo (sesuaikan jika berada di halaman utama atau sub-halaman)
+    const logoSrc = isSubPage ? '../assets/logo_imar.png' : 'assets/logo_imar.png';
+    const waLink = "https://wa.me/628157092463?text=Halo%20Imar%20Saloon,%20saya%20ingin%20melakukan%20reservasi%20jadwal...";
 
-            <!-- Chat Window -->
-            <div class="assistant-chat-window" id="assistantChatWindow">
-                <!-- Header -->
-                <div class="assistant-chat-header">
-                    <div class="assistant-info">
-                        <img src="${logoSrc}" alt="Avatar Imar" class="assistant-avatar">
-                        <div class="assistant-status-details">
-                            <h4>Asisten Imar Saloon</h4>
-                            <div class="assistant-status">
-                                <span class="assistant-status-dot"></span>
-                                <span>Aktif</span>
-                            </div>
+    widgetContainer.innerHTML = `
+        <!-- Floating Button -->
+        <button class="assistant-chat-toggle" id="assistantToggleBtn" title="Tanya Asisten Virtual">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/>
+            </svg>
+        </button>
+
+        <!-- Chat Window -->
+        <div class="assistant-chat-window" id="assistantChatWindow">
+            <!-- Header -->
+            <div class="assistant-chat-header">
+                <div class="assistant-info">
+                    <img src="${logoSrc}" alt="Avatar Imar" class="assistant-avatar">
+                    <div class="assistant-status-details">
+                        <h4>Asisten Imar Saloon</h4>
+                        <div class="assistant-status">
+                            <span class="assistant-status-dot"></span>
+                            <span>Aktif</span>
                         </div>
                     </div>
-                    <button class="assistant-close-btn" id="assistantCloseBtn" title="Tutup Chat">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </button>
                 </div>
-
-                <!-- Messages Container -->
-                <div class="assistant-chat-messages" id="assistantMessages">
-                    <!-- Sambutan Awal -->
-                    <div class="assistant-message assistant-message-received">
-                        Halo Kak! Selamat datang di <strong>Imar Saloon</strong>. 🌸<br><br>Saya asisten virtual Anda di sini. Ada yang bisa saya bantu terkait daftar layanan, harga, lokasi, atau jam buka kami?
-                    </div>
-                </div>
-
-                <!-- Quick Replies -->
-                <div class="assistant-quick-replies" id="assistantQuickReplies">
-                    <button class="assistant-quick-reply-btn" data-question="Berapa daftar harga potong rambut?">✂️ Daftar Harga</button>
-                    <button class="assistant-quick-reply-btn" data-question="Di mana alamat lokasinya?">📍 Alamat & Lokasi</button>
-                    <button class="assistant-quick-reply-btn" data-question="Bagaimana cara reservasi jadwal?">📅 Cara Booking</button>
-                    <button class="assistant-quick-reply-btn" data-question="Bisa bayar pakai apa saja?">💳 Pembayaran</button>
-                </div>
-
-                <!-- Input Area -->
-                <form class="assistant-chat-input-form" id="assistantInputForm">
-                    <input type="text" class="assistant-chat-input" id="assistantInput" placeholder="Tulis pertanyaan Anda..." required autocomplete="off">
-                    <button type="submit" class="assistant-send-btn" title="Kirim">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                        </svg>
-                    </button>
-                </form>
+                <button class="assistant-close-btn" id="assistantCloseBtn" title="Tutup Chat">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
             </div>
-        `;
 
-        document.body.appendChild(widgetContainer);
-        setupEventListeners();
-    };
+            <!-- Messages Container -->
+            <div class="assistant-chat-messages" id="assistantMessages">
+                <!-- Sambutan Awal -->
+                <div class="assistant-message assistant-message-received">
+                    Halo Kak! Selamat datang di <strong>Imar Saloon</strong>. 🌸<br><br>Saya asisten virtual Anda di sini. Ada yang bisa saya bantu terkait daftar layanan, harga, lokasi, atau jam buka kami?
+                </div>
+            </div>
 
-    // Pemicu rendering setelah CSS selesai dimuat agar tidak terjadi transisi/flash visual unstyled
-    link.onload = renderWidget;
-    link.onerror = renderWidget; // Fallback jika gagal memuat stylesheet
-    document.head.appendChild(link);
+            <!-- Quick Replies -->
+            <div class="assistant-quick-replies" id="assistantQuickReplies">
+                <button class="assistant-quick-reply-btn" data-question="Berapa daftar harga potong rambut?">✂️ Daftar Harga</button>
+                <button class="assistant-quick-reply-btn" data-question="Di mana alamat lokasinya?">📍 Alamat & Lokasi</button>
+                <button class="assistant-quick-reply-btn" data-question="Bagaimana cara reservasi jadwal?">📅 Cara Booking</button>
+                <button class="assistant-quick-reply-btn" data-question="Bisa bayar pakai apa saja?">💳 Pembayaran</button>
+            </div>
+
+            <!-- Input Area -->
+            <form class="assistant-chat-input-form" id="assistantInputForm">
+                <input type="text" class="assistant-chat-input" id="assistantInput" placeholder="Tulis pertanyaan Anda..." required autocomplete="off">
+                <button type="submit" class="assistant-send-btn" title="Kirim">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    `;
+
+    document.body.appendChild(widgetContainer);
+    setupEventListeners();
 }
 
 // ==========================================
@@ -159,7 +153,7 @@ async function lazyLoadDatabase() {
 
     try {
         console.log("Mengambil data referensi dari Supabase...");
-        
+
         // Ambil data layanan utama
         const { data: services, error: sErr } = await supabase
             .from('services')
@@ -192,13 +186,13 @@ function appendMessage(text, sender, isHtml = false) {
     const container = document.getElementById('assistantMessages');
     const msgElement = document.createElement('div');
     msgElement.className = `assistant-message ${sender === 'user' ? 'assistant-message-sent' : 'assistant-message-received'}`;
-    
+
     if (isHtml) {
         msgElement.innerHTML = text;
     } else {
         msgElement.textContent = text;
     }
-    
+
     container.appendChild(msgElement);
     container.scrollTop = container.scrollHeight;
 }
@@ -238,7 +232,7 @@ async function handleUserMessage(messageText) {
 
     // 4. Hubungi OpenRouter API
     const reply = await getAiResponse();
-    
+
     // 5. Hilangkan indikator mengetik
     removeTypingIndicator();
 
@@ -337,17 +331,36 @@ Jika memberikan rekomendasi booking/reservasi, selalu sertakan arahan untuk meng
 
 // Fungsi Fetch ke OpenRouter API
 async function getAiResponse() {
+    // Ambil API Key secara dinamis dari Supabase jika belum dimuat
+    if (!OPENROUTER_API_KEY) {
+        try {
+            const { data, error } = await supabase
+                .from('app_config')
+                .select('value')
+                .eq('key', 'openrouter_key')
+                .single();
+
+            if (!error && data && data.value) {
+                OPENROUTER_API_KEY = data.value;
+            } else {
+                console.error("Gagal mengambil API Key dari Supabase:", error);
+            }
+        } catch (err) {
+            console.error("Error fetching API Key:", err);
+        }
+    }
+
     // 1. Validasi API Key Terlebih Dahulu
-    if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === "YOUR_OPENROUTER_API_KEY_HERE") {
+    if (!OPENROUTER_API_KEY) {
         return `
             <strong>Pemberitahuan Sistem:</strong><br>
-            Halo! Chatbot ini menggunakan OpenRouter API. Mohon pasang API Key Anda di file <code>/js/assistant.js</code> pada baris ke-9 terlebih dahulu agar chatbot dapat berfungsi.
+            Halo! Chatbot gagal memuat API Key dari database Supabase. Pastikan tabel <code>app_config</code> Anda terisi dengan benar.
         `;
     }
 
     try {
         const systemPrompt = buildSystemPrompt();
-        
+
         // Susun payload request
         const messagesPayload = [
             { role: "system", content: systemPrompt },
