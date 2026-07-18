@@ -1,6 +1,6 @@
 /* ==========================================================
-   imar-saloon/js/assistant.js
-   Virtual AI Assistant Imar Saloon (Powered by OpenRouter)
+   imar-salon/js/assistant.js
+   Virtual AI Assistant Imar Salon (Powered by OpenRouter)
    ========================================================== */
 
 import { supabase } from '../connection/supabase.js';
@@ -52,7 +52,7 @@ function injectChatWidget() {
                     <div class="assistant-info">
                         <img src="${logoSrc}" alt="Avatar Imar" class="assistant-avatar">
                         <div class="assistant-status-details">
-                            <h4>Asisten Imar Saloon</h4>
+                            <h4>Asisten Imar Salon</h4>
                             <div class="assistant-status">
                                 <span class="assistant-status-dot"></span>
                                 <span>Aktif</span>
@@ -70,13 +70,13 @@ function injectChatWidget() {
                 <div class="assistant-chat-messages" id="assistantMessages">
                     <!-- Sambutan Awal -->
                     <div class="assistant-message assistant-message-received">
-                        Halo Kak! Selamat datang di <strong>Imar Saloon</strong>. 🌸<br><br>Saya asisten virtual Anda di sini. Ada yang bisa saya bantu terkait daftar layanan, harga, lokasi, atau jam buka kami?
+                        Halo Kak! Selamat datang di <strong>Imar Salon</strong>. 🌸<br><br>Saya asisten virtual Anda di sini. Ada yang bisa saya bantu terkait daftar layanan, harga, lokasi, atau jam buka kami?
                     </div>
                 </div>
 
                 <!-- Quick Replies -->
                 <div class="assistant-quick-replies" id="assistantQuickReplies">
-                    <button class="assistant-quick-reply-btn" data-question="Daftar harga layanan Imar Saloon">✂️ Daftar Harga</button>
+                    <button class="assistant-quick-reply-btn" data-question="Daftar harga layanan Imar Salon">✂️ Daftar Harga</button>
                     <button class="assistant-quick-reply-btn" data-question="Di mana alamat lokasinya?">📍 Alamat & Lokasi</button>
                     <button class="assistant-quick-reply-btn" data-question="Bagaimana cara reservasi?">📅 Cara Booking</button>
                     <button class="assistant-quick-reply-btn" data-question="Bisa bayar pakai apa saja?">💳 Pembayaran</button>
@@ -316,18 +316,18 @@ function buildSystemPrompt() {
 
     // 3. Gabungkan seluruh prompt instruksi & database
     const systemPrompt = `
-Kamu adalah asisten virtual resmi Imar Saloon (salon kecantikan di Yogyakarta). Tugasmu adalah membantu menjawab pertanyaan calon pelanggan dengan ramah, hangat, sopan, dan profesional.
+Kamu adalah asisten virtual resmi Imar Salon (salon kecantikan di Yogyakarta). Tugasmu adalah membantu menjawab pertanyaan calon pelanggan dengan ramah, hangat, sopan, dan profesional.
 
 ATURAN PERILAKU:
 1. Selalu panggil pelanggan dengan sebutan "Kak" atau "Kakak".
 2. Gunakan gaya bahasa yang ramah, sopan, dan berikan emoji salon yang manis (🌸, ✂️, 💅, 💇‍♀️, ✨) sewajarnya agar terkesan hangat.
 3. Jawablah secara singkat dan padat agar mudah dibaca di layar chat yang kecil.
 4. Jika pelanggan bertanya tentang RESERVASI / BOOKING / PESAN TEMPAT, informasikan bahwa reservasi dilakukan langsung dengan mengklik link WhatsApp admin yang kamu sediakan.
-5. PENTING: Kamu HANYA boleh menjawab pertanyaan seputar Imar Saloon (seperti harga, layanan, lokasi, jam buka, pembayaran, dll.). Jika pengguna menanyakan hal lain di luar salon (misalnya tentang matematika, coding, berita politik, resep makanan, dll.), tolaklah secara halus dan katakan bahwa kamu hanya asisten virtual Imar Saloon.
+5. PENTING: Kamu HANYA boleh menjawab pertanyaan seputar Imar Salon (seperti harga, layanan, lokasi, jam buka, pembayaran, dll.). Jika pengguna menanyakan hal lain di luar salon (misalnya tentang matematika, coding, berita politik, resep makanan, dll.), tolaklah secara halus dan katakan bahwa kamu hanya asisten virtual Imar Salon.
 6. PENTING: Jangan berhalusinasi atau mengada-ada layanan/harga yang tidak ada di daftar di bawah ini. Jika ada layanan yang ditanyakan tetapi tidak ada di daftar, katakan layanan tersebut belum tersedia saat ini.
 
 INFORMASI TOKO (STATIS):
-- Nama Salon: Imar Saloon
+- Nama Salon: Imar Salon
 - Slogan: Salon Simple & Sederhana
 - Alamat: JL. Demakan no 94, Daerah Istimewa Yogyakarta (DIY), Indonesia (Bisa dicari di Google Maps).
 - Jam Buka: Senin - Minggu, pukul 08:00 - 21:00 WIB.
@@ -390,7 +390,7 @@ async function getAiResponse() {
                 "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
                 "Content-Type": "application/json",
                 "HTTP-Referer": window.location.origin, // Diperlukan oleh OpenRouter
-                "X-Title": "Imar Saloon Assistant"     // Nama aplikasi Anda di dashboard OpenRouter
+                "X-Title": "Imar Salon Assistant"     // Nama aplikasi Anda di dashboard OpenRouter
             },
             body: JSON.stringify({
                 model: OPENROUTER_MODEL,
@@ -440,7 +440,7 @@ async function getAiResponse() {
         if (lowerReply.includes("reservasi") || lowerReply.includes("booking") || lowerReply.includes("wa.me") || lowerReply.includes("hubungi whatsapp")) {
             const waButtonHtml = `
                 <br>
-                <a href="https://wa.me/628157092463?text=Halo%20Imar%20Saloon,%20saya%20ingin%20melakukan%20reservasi..." target="_blank" class="assistant-whatsapp-cta-bubble">
+                <a href="https://wa.me/628157092463?text=Halo%20Imar%20Salon,%20saya%20ingin%20melakukan%20reservasi..." target="_blank" class="assistant-whatsapp-cta-bubble">
                     <svg viewBox="0 0 24 24">
                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.388 1.966 13.92 .941 11.99.94c-5.439 0-9.865 4.37-9.87 9.8-.001 1.748.463 3.456 1.343 4.966l-.993 3.626 3.73-.978zM16.51 14.88c-.28-.14-1.658-.818-1.916-.912-.258-.094-.446-.14-.633.14-.188.28-.727.912-.89 1.099-.163.188-.326.21-.606.07-.28-.14-1.182-.435-2.251-1.39-.83-.74-1.39-1.654-1.553-1.934-.163-.28-.018-.431.122-.571.125-.125.28-.326.42-.49.14-.163.188-.28.28-.467.094-.188.047-.35-.023-.49-.07-.14-.633-1.523-.867-2.087-.228-.548-.46-.474-.633-.483-.163-.008-.35-.01-.537-.01-.188 0-.49.07-.747.35-.258.28-.983.959-.983 2.339 0 1.38 1.004 2.71 1.144 2.897.14.188 1.977 3.019 4.79 4.23.67.288 1.192.46 1.6.592.673.214 1.285.184 1.768.111.539-.08 1.658-.677 1.89-1.332.233-.654.233-1.215.163-1.332-.07-.116-.258-.186-.538-.326z"/>
                     </svg>

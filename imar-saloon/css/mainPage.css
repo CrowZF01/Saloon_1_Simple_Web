@@ -868,7 +868,7 @@ footer {
     z-index: 999;
   }
 
-  /* Hide centered Imar Saloon text to avoid overlaps */
+  /* Hide centered Imar Salon text to avoid overlaps */
   .links p {
     display: none !important;
   }
