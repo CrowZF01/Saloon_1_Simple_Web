@@ -610,8 +610,8 @@ footer {
 
 .service-img-wrapper {
   width: 100%;
-  height: 280px;
-  /* Elegant height for portrait card image */
+  aspect-ratio: 4 / 5;
+  /* Elegant ratio for portrait card image */
   overflow: hidden;
   border-radius: 4px;
   margin-bottom: 25px;
