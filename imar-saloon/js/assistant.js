@@ -11,10 +11,7 @@ let isDataLoaded = false;
 let chatHistory = [];
 
 function injectChatWidget() {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
     const isSubPage = window.location.pathname.includes('/pages/');
-    link.href = isSubPage ? '../css/assistant.css' : 'css/assistant.css';
 
     const renderWidget = () => {
         if (document.getElementById('imar-assistant-widget')) return;
@@ -85,9 +82,7 @@ function injectChatWidget() {
         }, 100);
     };
 
-    link.onload = renderWidget;
-    link.onerror = renderWidget;
-    document.head.appendChild(link);
+    renderWidget();
 }
 
 function setupEventListeners() {
