@@ -1,53 +1,31 @@
-/* ==========================================================
-   imar-salon/js/assistant.js
-   Virtual AI Assistant Imar Salon (Powered by OpenRouter)
-   ========================================================== */
-
 import { supabase } from '../connection/supabase.js';
 
-// ==========================================
-// CONFIGURATION (PENGATURAN)
-// ==========================================
-// TODO: API Key OpenRouter akan diambil secara dinamis dari database Supabase
 let OPENROUTER_API_KEY = "";
 const OPENROUTER_MODEL = "openai/gpt-4o-mini";
 
-// Cache data dari database
 let cachedServices = [];
 let cachedPricingItems = [];
 let cachedFaqs = [];
 let isDataLoaded = false;
 
-// History percakapan (maksimal 10 pesan terakhir agar hemat token & kontekstual)
 let chatHistory = [];
 
-// ==========================================
-// 1. INJEKSI WIDGET HTML SECARA DINAMIS
-// ==========================================
 function injectChatWidget() {
-    // 1. Tambahkan stylesheet asisten ke head
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    // Gunakan path absolut/relatif yang tepat tergantung di mana file berada
     const isSubPage = window.location.pathname.includes('/pages/');
     link.href = isSubPage ? '../css/assistant.css' : 'css/assistant.css';
 
-    // Helper untuk merender widget
     const renderWidget = () => {
-        // Jika widget sudah terlanjur dirender, abaikan (mencegah double render jika onload & onerror terpicu bersamaan)
         if (document.getElementById('imar-assistant-widget')) return;
 
-        // 2. Buat elemen widget chat
         const widgetContainer = document.createElement('div');
         widgetContainer.id = 'imar-assistant-widget';
 
-        // Path aset gambar logo (sesuaikan jika berada di halaman utama atau sub-halaman)
         const logoSrc = isSubPage ? '../assets/logo_imar.webp' : 'assets/logo_imar.webp';
 
         widgetContainer.innerHTML = `
-            <!-- Chat Window -->
             <div class="assistant-chat-window" id="assistantChatWindow">
-                <!-- Header -->
                 <div class="assistant-chat-header">
                     <div class="assistant-info">
                         <img src="${logoSrc}" alt="Avatar Imar" class="assistant-avatar">
@@ -66,15 +44,12 @@ function injectChatWidget() {
                     </button>
                 </div>
 
-                <!-- Messages Container -->
                 <div class="assistant-chat-messages" id="assistantMessages">
-                    <!-- Sambutan Awal -->
                     <div class="assistant-message assistant-message-received">
                         Halo Kak! Selamat datang di <strong>Imar Salon</strong>. 🌸<br><br>Saya asisten virtual Anda di sini. Ada yang bisa saya bantu terkait daftar layanan, harga, lokasi, atau jam buka kami?
                     </div>
                 </div>
 
-                <!-- Quick Replies -->
                 <div class="assistant-quick-replies" id="assistantQuickReplies">
                     <button class="assistant-quick-reply-btn" data-question="Daftar harga layanan Imar Salon">✂️ Daftar Harga</button>
                     <button class="assistant-quick-reply-btn" data-question="Di mana alamat lokasinya?">📍 Alamat & Lokasi</button>
@@ -82,7 +57,6 @@ function injectChatWidget() {
                     <button class="assistant-quick-reply-btn" data-question="Bisa bayar pakai apa saja?">💳 Pembayaran</button>
                 </div>
 
-                <!-- Input Area -->
                 <form class="assistant-chat-input-form" id="assistantInputForm">
                     <input type="text" class="assistant-chat-input" id="assistantInput" placeholder="Tulis pertanyaan Anda..." required autocomplete="off">
                     <button type="submit" class="assistant-send-btn" title="Kirim">
@@ -93,7 +67,6 @@ function injectChatWidget() {
                 </form>
             </div>
 
-            <!-- Floating Button -->
             <button class="assistant-chat-toggle" id="assistantToggleBtn" title="Tanya Asisten Virtual">
                 <svg viewBox="0 0 24 24">
                     <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/>
@@ -104,7 +77,6 @@ function injectChatWidget() {
         document.body.appendChild(widgetContainer);
         setupEventListeners();
 
-        // Aktifkan transisi animasi setelah render selesai (menghindari transisi default dari unstyled ke styled)
         setTimeout(() => {
             const chatWindow = document.getElementById('assistantChatWindow');
             if (chatWindow) {
@@ -113,15 +85,11 @@ function injectChatWidget() {
         }, 100);
     };
 
-    // Pemicu rendering setelah CSS selesai dimuat
     link.onload = renderWidget;
-    link.onerror = renderWidget; // Fallback jika gagal memuat stylesheet
+    link.onerror = renderWidget;
     document.head.appendChild(link);
 }
 
-// ==========================================
-// 2. EVENT LISTENERS MANAGEMENT
-// ==========================================
 function setupEventListeners() {
     const toggleBtn = document.getElementById('assistantToggleBtn');
     const closeBtn = document.getElementById('assistantCloseBtn');
@@ -130,12 +98,11 @@ function setupEventListeners() {
     const inputField = document.getElementById('assistantInput');
     const quickReplyBtns = document.querySelectorAll('.assistant-quick-reply-btn');
 
-    // Buka/Tutup Chat
     toggleBtn.addEventListener('click', () => {
         chatWindow.classList.toggle('active');
         if (chatWindow.classList.contains('active')) {
             inputField.focus();
-            lazyLoadDatabase(); // Ambil data Supabase jika belum dimuat
+            lazyLoadDatabase();
         }
     });
 
@@ -143,7 +110,6 @@ function setupEventListeners() {
         chatWindow.classList.remove('active');
     });
 
-    // Kirim via Form
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const text = inputField.value.trim();
@@ -153,7 +119,6 @@ function setupEventListeners() {
         inputField.value = '';
     });
 
-    // Kirim via Quick Reply
     quickReplyBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const question = btn.getAttribute('data-question');
@@ -162,28 +127,22 @@ function setupEventListeners() {
     });
 }
 
-// ==========================================
-// 3. LAZY LOAD DATA DARI SUPABASE
-// ==========================================
 async function lazyLoadDatabase() {
     if (isDataLoaded) return;
 
     try {
         console.log("Mengambil data referensi dari Supabase...");
 
-        // Ambil data layanan utama
         const { data: services, error: sErr } = await supabase
             .from('services')
             .select('*');
         if (!sErr && services) cachedServices = services;
 
-        // Ambil data item harga rinci
         const { data: pricing, error: pErr } = await supabase
             .from('pricing_items')
             .select('*');
         if (!pErr && pricing) cachedPricingItems = pricing;
 
-        // Ambil data FAQ
         const { data: faqs, error: fErr } = await supabase
             .from('faqs')
             .select('*');
@@ -196,9 +155,6 @@ async function lazyLoadDatabase() {
     }
 }
 
-// ==========================================
-// 4. MANAGEMENT PESAN & UI
-// ==========================================
 function appendMessage(text, sender, isHtml = false) {
     const container = document.getElementById('assistantMessages');
     const msgElement = document.createElement('div');
@@ -235,39 +191,25 @@ function removeTypingIndicator() {
     }
 }
 
-// Handler utama saat pengguna mengirim pesan
 async function handleUserMessage(messageText) {
-    // 1. Tampilkan pesan user di UI
     appendMessage(messageText, 'user');
 
-    // 2. Simpan pesan user ke history lokal
     chatHistory.push({ role: "user", content: messageText });
-    if (chatHistory.length > 10) chatHistory.shift(); // Batasi 10 riwayat pesan
+    if (chatHistory.length > 10) chatHistory.shift();
 
-    // 3. Tampilkan indikator mengetik
     showTypingIndicator();
 
-    // 4. Hubungi OpenRouter API
     const reply = await getAiResponse();
 
-    // 5. Hilangkan indikator mengetik
     removeTypingIndicator();
 
-    // 6. Tampilkan respon AI ke UI
     appendMessage(reply, 'assistant', true);
 
-    // 7. Simpan pesan asisten ke history lokal (tanpa format HTML mentah jika memungkinkan)
-    chatHistory.push({ role: "assistant", content: reply.replace(/<[^>]*>/g, '') }); // Bersihkan tag html sederhana untuk history
+    chatHistory.push({ role: "assistant", content: reply.replace(/<[^>]*>/g, '') });
     if (chatHistory.length > 10) chatHistory.shift();
 }
 
-// ==========================================
-// 5. LOGIKA GENERATE PROMPT & OPENROUTER CALL
-// ==========================================
-
-// Fungsi merakit System Prompt terstruktur
 function buildSystemPrompt() {
-    // 1. Siapkan teks ringkasan Layanan & Harga
     let pricingContext = "";
     if (cachedServices.length > 0) {
         cachedServices.forEach(category => {
@@ -284,7 +226,6 @@ function buildSystemPrompt() {
             }
         });
     } else {
-        // Fallback jika database gagal di-load
         pricingContext = `
         - Pot + Blow: Rp 30.000
         - Potong: Rp 20.000
@@ -306,7 +247,6 @@ function buildSystemPrompt() {
         `;
     }
 
-    // 2. Siapkan teks FAQ
     let faqContext = "";
     if (cachedFaqs.length > 0) {
         cachedFaqs.forEach((faq, index) => {
@@ -314,7 +254,6 @@ function buildSystemPrompt() {
         });
     }
 
-    // 3. Gabungkan seluruh prompt instruksi & database
     const systemPrompt = `
 Kamu adalah asisten virtual resmi Imar Salon (salon kecantikan di Yogyakarta). Tugasmu adalah membantu menjawab pertanyaan calon pelanggan dengan ramah, hangat, sopan, dan profesional.
 
@@ -346,9 +285,7 @@ Jika memberikan rekomendasi booking/reservasi, selalu sertakan arahan untuk meng
     return systemPrompt;
 }
 
-// Fungsi Fetch ke OpenRouter API
 async function getAiResponse() {
-    // Ambil API Key secara dinamis dari Supabase jika belum dimuat
     if (!OPENROUTER_API_KEY) {
         try {
             const { data, error } = await supabase
@@ -367,7 +304,6 @@ async function getAiResponse() {
         }
     }
 
-    // 1. Validasi API Key Terlebih Dahulu
     if (!OPENROUTER_API_KEY) {
         return `
             <strong>Pemberitahuan Sistem:</strong><br>
@@ -378,7 +314,6 @@ async function getAiResponse() {
     try {
         const systemPrompt = buildSystemPrompt();
 
-        // Susun payload request
         const messagesPayload = [
             { role: "system", content: systemPrompt },
             ...chatHistory
@@ -389,8 +324,8 @@ async function getAiResponse() {
             headers: {
                 "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
                 "Content-Type": "application/json",
-                "HTTP-Referer": window.location.origin, // Diperlukan oleh OpenRouter
-                "X-Title": "Imar Salon Assistant"     // Nama aplikasi Anda di dashboard OpenRouter
+                "HTTP-Referer": window.location.origin,
+                "X-Title": "Imar Salon Assistant"
             },
             body: JSON.stringify({
                 model: OPENROUTER_MODEL,
@@ -407,18 +342,14 @@ async function getAiResponse() {
         const data = await response.json();
         let aiReply = data.choices[0].message.content;
 
-        // Format jika ada ** ... ** maka kalimat ditengahnya itu di bold
         if (aiReply) {
             aiReply = aiReply.replace(/\*\*([\s\S]*?)\*\*/g, '<strong>$1</strong>');
 
-            // Format tanda hubung " - " agar menjadi baris baru (kecuali rentang hari/jam)
             aiReply = aiReply.replace(/(\s+-\s+)/g, (match, p1, offset, string) => {
                 const before = string.slice(Math.max(0, offset - 15), offset).trim();
                 const after = string.slice(offset + match.length, offset + match.length + 15).trim();
                 
-                // Hindari range waktu (misal 08:00 - 21:00)
                 const isTimeRange = /\d{2}[:\.]\d{2}$/.test(before) && /^\d{2}[:\.]\d{2}/.test(after);
-                // Hindari range hari (misal Senin - Minggu)
                 const dayNames = /senin|selasa|rabu|kamis|jumat|sabtu|minggu/i;
                 const isDayRange = dayNames.test(before) && dayNames.test(after);
                 
@@ -426,7 +357,6 @@ async function getAiResponse() {
                     return match;
                 }
                 
-                // Hindari duplikasi jika sebelumnya sudah ada tag <br>
                 if (before.endsWith('<br>') || before.endsWith('<br/>') || before.endsWith('<br />')) {
                     return ' - ';
                 }
@@ -435,7 +365,6 @@ async function getAiResponse() {
             });
         }
 
-        // Modifikasi respon untuk menyisipkan tombol WhatsApp secara dinamis jika AI menyarankan reservasi
         const lowerReply = aiReply.toLowerCase();
         if (lowerReply.includes("reservasi") || lowerReply.includes("booking") || lowerReply.includes("wa.me") || lowerReply.includes("hubungi whatsapp")) {
             const waButtonHtml = `
@@ -458,7 +387,6 @@ async function getAiResponse() {
     }
 }
 
-// Jalankan inisialisasi saat DOM siap
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', injectChatWidget);
 } else {

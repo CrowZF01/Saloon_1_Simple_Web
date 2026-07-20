@@ -38,7 +38,6 @@
     </header>
 
     <main>
-        <!-- Hero Section with Split Layout -->
         <section class="hero">
             <div class="hero-image-wrapper">
                 <div class="hero-card-stack">
@@ -68,7 +67,6 @@
             </div>
         </section>
 
-        <!-- Our Specialties (Services Preview) Section -->
         <section id="services" class="services-section">
             <div class="section-header">
                 <span class="sub-title">Layanan Salon Kami</span>
@@ -77,7 +75,6 @@
             </div>
 
             <div class="services-grid" id="services-grid">
-                <!-- Haircut & Styling -->
                 <div class="service-card">
                     <div class="service-img-wrapper">
                         <img src="assets/photo7.webp" alt="Potong & Tata Rambut" width="600" height="600">
@@ -87,7 +84,6 @@
                     <a href="pages/pricingPage.html" class="service-link">Lihat Detail Harga</a>
                 </div>
 
-                <!-- Premium Coloring -->
                 <div class="service-card">
                     <div class="service-img-wrapper">
                         <img src="assets/photo4.webp" alt="Pewarnaan Rambut" width="600" height="600">
@@ -98,7 +94,6 @@
                     <a href="pages/pricingPage.html" class="service-link">Lihat Detail Harga</a>
                 </div>
 
-                <!-- Deep Care Treatment -->
                 <div class="service-card">
                     <div class="service-img-wrapper">
                         <img src="assets/photo2.webp" alt="Perawatan Rambut" width="600" height="600">
@@ -118,12 +113,10 @@
                 <div class="divider"></div>
             </div>
             <div class="reviews-container">
-                <!-- Trustindex Google Reviews Widget -->
                 <script defer async src='https://cdn.trustindex.io/loader.js?041c39e7617665698b1637cd056'></script>
             </div>
         </section>
 
-        <!-- WhatsApp Bottom CTA Section -->
         <section class="whatsapp-bottom-section">
             <p>Ingin melakukan reservasi atau berkonsultasi mengenai layanan kami?</p>
             <a href="https://wa.me/628157092463?text=Halo%20Imar%20Salon,%20saya%20ingin%20bertanya%20tentang%20layanan..."
@@ -139,7 +132,6 @@
 
     <footer>
         <div class="footer-container">
-            <!-- Brand Column -->
             <div class="footer-col brand-col">
                 <div class="footer-logo">
                     <img src="assets/logo_imar.webp" alt="Logo Imar Salon" width="300" height="300">
@@ -157,7 +149,6 @@
                 </ul>
             </div>
 
-            <!-- Salon Hours Column -->
             <div class="footer-col hours-col">
                 <h3>Jam Buka</h3>
                 <ul>
@@ -165,7 +156,6 @@
                 </ul>
             </div>
 
-            <!-- Contact Column -->
             <div class="footer-col contact-col">
                 <h3>Info Kontak</h3>
                 <p class="contact-item">📍 JL. Demakan no 94, Daerah Istimewa Yogyakarta (DIY), Indonesia</p>
@@ -211,7 +201,6 @@
 
             cards.forEach(card => {
                 card.addEventListener('click', function () {
-                    // If it's already the front card, do nothing
                     if (this.classList.contains('card-1')) return;
 
                     cycleCards();
@@ -219,13 +208,10 @@
                 });
             });
 
-            // Start the autoplay loop when the page loads
             startAutoplay();
         });
     </script>
-    <!-- Load dynamic services from Supabase -->
     <script type="module" src="./js/services.js"></script>
-    <!-- Virtual AI Assistant -->
     <script type="module" src="./js/assistant.js"></script>
 </body>
 

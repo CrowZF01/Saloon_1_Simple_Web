@@ -5,16 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tentang Kami - Imar Salon</title>
-    <!-- Main page styles for header/footer consistency -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/mainPage.css">
-    <!-- About page custom styles -->
     <link rel="stylesheet" href="../css/aboutPage.css">
-    <!-- Leaflet CSS for map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
@@ -44,7 +41,6 @@
     </header>
 
     <main class="about-page-main">
-        <!-- Hero Section -->
         <section class="about-hero">
             <div class="section-header">
                 <span class="sub-title">Cerita Sederhana Kami</span>
@@ -53,7 +49,6 @@
             </div>
         </section>
 
-        <!-- Description Section -->
         <section class="about-story-section">
             <div class="story-content">
                 <h3>Melayani dengan Tulus & Sepenuh Hati</h3>
@@ -63,7 +58,6 @@
             </div>
         </section>
 
-        <!-- Image Collage (3 beside each other) -->
         <section class="about-images-section">
             <div class="about-images-grid">
                 <div class="about-image-card">
@@ -81,10 +75,8 @@
             </div>
         </section>
 
-        <!-- Location and Contacts Section -->
         <section class="about-info-section">
             <div class="info-grid">
-                <!-- Location Card -->
                 <div class="info-card">
                     <div class="info-icon">📍</div>
                     <h3>Lokasi Kami</h3>
@@ -92,7 +84,6 @@
                     <div id="map" class="about-map"></div>
                 </div>
 
-                <!-- Contacts Card -->
                 <div class="info-card">
                     <div class="info-icon">📞</div>
                     <h3>Hubungi Kami</h3>
@@ -115,7 +106,6 @@
             </div>
         </section>
 
-        <!-- Creator Credit Section -->
         <section class="about-creator-section">
             <div class="creator-card">
                 <span class="creator-label">Situs Web Dibuat Oleh</span>
@@ -129,7 +119,6 @@
 
     <footer>
         <div class="footer-container">
-            <!-- Brand Column -->
             <div class="footer-col brand-col">
                 <div class="footer-logo">
                     <img src="../assets/logo_imar.webp" alt="Logo Imar Salon" width="300" height="300">
@@ -147,7 +136,6 @@
                 </ul>
             </div>
 
-            <!-- Salon Hours Column -->
             <div class="footer-col hours-col">
                 <h3>Jam Buka</h3>
                 <ul>
@@ -155,7 +143,6 @@
                 </ul>
             </div>
 
-            <!-- Contact Column -->
             <div class="footer-col contact-col">
                 <h3>Info Kontak</h3>
                 <p class="contact-item">📍 JL. Demakan no 94, Daerah Istimewa Yogyakarta (DIY), Indonesia</p>
@@ -169,30 +156,25 @@
         </div>
     </footer>
 
-    <!-- Leaflet JS for map -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Coordinate for Jl. Demakan, Tegalrejo, Yogyakarta
             const lat = -7.79188235178292;
             const lng = 110.34801661048826;
 
-            // Initialize map
             const map = L.map('map', {
                 center: [lat, lng],
                 zoom: 16,
-                scrollWheelZoom: false // prevents zooming when scrolling the page
+                scrollWheelZoom: false
             });
 
-            // Add CartoDB Positron elegant gray/cream tiles
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
                 subdomains: 'abcd',
                 maxZoom: 20
             }).addTo(map);
 
-            // Custom gold marker design using Leaflet divIcon
             const goldIcon = L.divIcon({
                 className: 'custom-gold-marker',
                 html: `<div style="
@@ -219,14 +201,11 @@
                 iconAnchor: [10, 10]
             });
 
-            // Add marker to map
             const marker = L.marker([lat, lng], { icon: goldIcon }).addTo(map);
 
-            // Bind popup box
             marker.bindPopup("<strong style='font-family: \"Playfair Display\", serif; color: #c5a880;'>Imar Salon</strong><br><span style='font-family: \"Montserrat\", sans-serif; font-size: 12px; color: #555;'>JL. Demakan no 94, Yogyakarta</span>").openPopup();
         });
     </script>
-    <!-- Virtual AI Assistant -->
     <script type="module" src="../js/assistant.js"></script>
 </body>
 

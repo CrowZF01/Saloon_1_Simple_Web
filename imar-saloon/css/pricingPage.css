@@ -1,4 +1,4 @@
-/* Custom Styles for pricingPage.php */
+
 
 .pricing-page-main {
   background-color: var(--bg-cream, #FAF8F5);
@@ -24,7 +24,7 @@
   margin: 25px auto 0 auto;
 }
 
-/* Luxury Pricing Card */
+
 .pricing-menu-container {
   width: 100%;
   max-width: 700px;
@@ -37,7 +37,7 @@
   position: relative;
 }
 
-/* Elegant Double Frame Border */
+
 .pricing-menu-container::before {
   content: '';
   position: absolute;
@@ -83,7 +83,7 @@
   text-transform: uppercase;
 }
 
-/* Menu Image Wrapper */
+
 .menu-image-wrapper {
   width: 100%;
   max-width: 100%;
@@ -102,7 +102,7 @@
   display: block;
 }
 
-/* WhatsApp CTA Area */
+
 .pricing-cta {
   text-align: center;
   margin-top: 20px;
@@ -127,7 +127,7 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--white);
-  background-color: #25d366; /* WhatsApp Green */
+  background-color: #25d366; 
   border: 1px solid #25d366;
   padding: 16px 36px;
   text-decoration: none;
@@ -149,7 +149,7 @@
   height: 18px;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .pricing-page-main {
     padding: 50px 15px 70px 15px;
@@ -172,3 +172,4 @@
     letter-spacing: 3px;
   }
 }
+

@@ -1,8 +1,8 @@
-/* Custom Styles for reviewPage.php */
+
 
 .review-page-main {
   background-color: var(--bg-cream, #FAF8F5);
-  min-height: calc(100vh - 80px - 340px); /* Ensures content fills space between header and footer */
+  min-height: calc(100vh - 80px - 340px); 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,16 +33,16 @@
 
 .widget-wrapper {
   width: 100%;
-  min-height: 500px; /* Layout placeholder for loading widget */
+  min-height: 500px; 
   background: var(--white, #ffffff);
   padding: 40px;
   border-radius: 8px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(197, 168, 128, 0.15); /* Luxury subtle gold accent border */
+  border: 1px solid rgba(197, 168, 128, 0.15); 
   box-sizing: border-box;
 }
 
-/* Responsive design adjustments */
+
 @media (max-width: 768px) {
   .review-page-main {
     padding: 50px 15px 70px 15px;
@@ -61,3 +61,4 @@
     padding: 20px;
   }
 }
+

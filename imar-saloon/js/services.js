@@ -15,7 +15,6 @@ async function loadServices() {
         }
 
         if (services && services.length > 0) {
-            // Kosongkan kontainer sebelum mengisi dengan data dinamis dari Supabase
             container.innerHTML = ''
 
             services.forEach(service => {
@@ -38,7 +37,6 @@ async function loadServices() {
     }
 }
 
-// Jalankan saat DOM siap
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadServices)
 } else {
