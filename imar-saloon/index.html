@@ -114,8 +114,21 @@
                 <h2>Apa Kata Mereka</h2>
                 <div class="divider"></div>
             </div>
-            <div class="reviews-container">
-                <script defer async src='https://cdn.trustindex.io/loader.js?041c39e7617665698b1637cd056'></script>
+            <div class="reviews-container-custom">
+                <div id="reviews-carousel-header"></div>
+                <div class="reviews-carousel-wrapper">
+                    <button class="carousel-control prev" aria-label="Previous review">
+                        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                    </button>
+                    <div class="reviews-carousel-track-container">
+                        <div class="reviews-carousel-track" id="reviews-carousel-track">
+                            <div class="reviews-loading">Memuat ulasan...</div>
+                        </div>
+                    </div>
+                    <button class="carousel-control next" aria-label="Next review">
+                        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -215,6 +228,7 @@
     </script>
     <script type="module" src="./js/services.js"></script>
     <script type="module" src="./js/assistant.js"></script>
+    <script type="module" src="./js/reviews.js"></script>
 </body>
 
 </html>
