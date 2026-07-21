@@ -149,31 +149,26 @@ function setupCarousel() {
     const nextBtn = document.querySelector('.carousel-control.next');
     if (!track || !prevBtn || !nextBtn) return;
 
-    let scrollAmount = 0;
-    
     const getCardWidth = () => {
         const firstCard = track.firstElementChild;
         if (!firstCard) return 0;
-        const style = window.getComputedStyle(firstCard);
-        const marginRight = parseFloat(style.marginRight) || 0;
-        return firstCard.offsetWidth + marginRight;
+        const trackStyle = window.getComputedStyle(track);
+        const gap = parseFloat(trackStyle.columnGap) || parseFloat(trackStyle.gap) || 0;
+        return firstCard.offsetWidth + gap;
     };
 
     nextBtn.addEventListener('click', () => {
         const cardWidth = getCardWidth();
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        scrollAmount = Math.min(scrollAmount + cardWidth, maxScroll);
-        track.scrollTo({
-            left: scrollAmount,
+        track.scrollBy({
+            left: cardWidth,
             behavior: 'smooth'
         });
     });
 
     prevBtn.addEventListener('click', () => {
         const cardWidth = getCardWidth();
-        scrollAmount = Math.max(scrollAmount - cardWidth, 0);
-        track.scrollTo({
-            left: scrollAmount,
+        track.scrollBy({
+            left: -cardWidth,
             behavior: 'smooth'
         });
     });
@@ -182,16 +177,18 @@ function setupCarousel() {
     let autoSlideInterval = setInterval(() => {
         const cardWidth = getCardWidth();
         if (cardWidth === 0) return;
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        if (scrollAmount >= maxScroll - 5) {
-            scrollAmount = 0;
+        const isEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 15;
+        if (isEnd) {
+            track.scrollTo({
+                left: 0,
+                behavior: 'smooth'
+            });
         } else {
-            scrollAmount = Math.min(scrollAmount + cardWidth, maxScroll);
+            track.scrollBy({
+                left: cardWidth,
+                behavior: 'smooth'
+            });
         }
-        track.scrollTo({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
     }, 6000);
 
     const resetInterval = () => {
@@ -199,6 +196,7 @@ function setupCarousel() {
     };
 
     track.addEventListener('mouseenter', resetInterval);
+    track.addEventListener('touchstart', resetInterval, { passive: true });
     prevBtn.addEventListener('click', resetInterval);
     nextBtn.addEventListener('click', resetInterval);
 }
