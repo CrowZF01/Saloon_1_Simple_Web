@@ -1,53 +1,53 @@
-import { supabase } from '../connection/supabase.js'
+import { supabase } from "../connection/supabase.js";
 
 function getAvatarColor(name) {
-    const colors = [
-        '#0f9d58', // Green
-        '#db4437', // Red
-        '#f4b400', // Yellow/Orange
-        '#4285f4', // Blue
-        '#ab47bc', // Purple
-        '#00acc1', // Cyan
-        '#ff7043', // Deep Orange
-        '#78909c'  // Grey Blue
-    ];
-    let hash = 0;
-    if (name) {
-        for (let i = 0; i < name.length; i++) {
-            hash = name.charCodeAt(i) + ((hash << 5) - hash);
-        }
+  const colors = [
+    "#0f9d58", // Green
+    "#db4437", // Red
+    "#f4b400", // Yellow/Orange
+    "#4285f4", // Blue
+    "#ab47bc", // Purple
+    "#00acc1", // Cyan
+    "#ff7043", // Deep Orange
+    "#78909c", // Grey Blue
+  ];
+  let hash = 0;
+  if (name) {
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
     }
-    const index = Math.abs(hash) % colors.length;
-    return colors[index];
+  }
+  const index = Math.abs(hash) % colors.length;
+  return colors[index];
 }
 
 function getAvatarHtml(name, avatar) {
-    if (avatar && avatar.trim().startsWith('http')) {
-        return `<img src="${avatar}" alt="${name}" class="reviewer-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+  if (avatar && avatar.trim().startsWith("http")) {
+    return `<img src="${avatar}" alt="${name}" class="reviewer-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="initials-avatar" style="background-color: ${getAvatarColor(name)}; display:none;">${name.charAt(0).toUpperCase()}</div>`;
-    }
-    const initial = name ? name.charAt(0).toUpperCase() : 'U';
-    const color = getAvatarColor(name);
-    return `<div class="initials-avatar" style="background-color: ${color}; display:flex;">${initial}</div>`;
+  }
+  const initial = name ? name.charAt(0).toUpperCase() : "U";
+  const color = getAvatarColor(name);
+  return `<div class="initials-avatar" style="background-color: ${color}; display:flex;">${initial}</div>`;
 }
 
 function generateStars(rating) {
-    const fullStars = Math.floor(rating);
-    let starsHtml = '';
-    for (let i = 0; i < 5; i++) {
-        if (i < fullStars) {
-            starsHtml += `<span class="star-icon full">&#9733;</span>`;
-        } else {
-            starsHtml += `<span class="star-icon empty">&#9733;</span>`;
-        }
+  const fullStars = Math.floor(rating);
+  let starsHtml = "";
+  for (let i = 0; i < 5; i++) {
+    if (i < fullStars) {
+      starsHtml += `<span class="star-icon full">&#9733;</span>`;
+    } else {
+      starsHtml += `<span class="star-icon empty">&#9733;</span>`;
     }
-    return starsHtml;
+  }
+  return starsHtml;
 }
 
 function createReviewCard(review) {
-    const card = document.createElement('div');
-    card.className = 'review-card';
-    card.innerHTML = `
+  const card = document.createElement("div");
+  card.className = "review-card";
+  card.innerHTML = `
         <div class="review-card-header">
             <div class="reviewer-info">
                 <div class="reviewer-avatar">
@@ -72,12 +72,12 @@ function createReviewCard(review) {
         </div>
         <p class="review-content-text">${review.review_text}</p>
     `;
-    return card;
+  return card;
 }
 
 function renderHeaderBar(container) {
-    if (!container) return;
-    container.innerHTML = `
+  if (!container) return;
+  container.innerHTML = `
         <div class="reviews-header-bar">
             <div class="reviews-header-left">
                 <span class="google-brand-text">
@@ -99,161 +99,126 @@ function renderHeaderBar(container) {
     `;
 }
 
-const defaultReviews = [
-    {
-        name: "Siti Rahmawati",
-        avatar: "",
-        date: "2 bulan lalu",
-        rating: 5,
-        review_text: "Pelayanan sangat ramah dan memuaskan. Potongan rambut rapi sesuai permintaan. Tempatnya bersih dan harganya sangat terjangkau di Jogja!"
-    },
-    {
-        name: "Dwi Handayani",
-        avatar: "",
-        date: "1 bulan lalu",
-        rating: 5,
-        review_text: "Creambath dan smoothing di Imar Salon hasilnya bagus banget, rambut jadi lembut dan tidak rusak. Rekomendasi salon langganan keluarga."
-    },
-    {
-        name: "Anisa Permata",
-        avatar: "",
-        date: "3 minggu lalu",
-        rating: 5,
-        review_text: "Make up dan hairdo untuk acara wisuda kemarin pas banget, kelihatan natural dan tahan seharian. Terima kasih Imar Salon!"
-    },
-    {
-        name: "Rini Astuti",
-        avatar: "",
-        date: "2 minggu lalu",
-        rating: 5,
-        review_text: "Harga sangat bersahabat tapi hasilnya kualitas salon mahal. Ibunya baik sekali dan sabar melayani."
-    },
-    {
-        name: "Budi Santoso",
-        avatar: "",
-        date: "1 bulan lalu",
-        rating: 5,
-        review_text: "Tempat potong rambut langganan. Hasil selalu rapi dan pengerjaannya teliti."
-    },
-    {
-        name: "Maya Kartika",
-        avatar: "",
-        date: "4 bulan lalu",
-        rating: 5,
-        review_text: "Pewarnaan rambutnya bagus banget, warnanya rata dan ga bikin rambut kering. Pasti bakal balik lagi ke sini!"
-    }
-];
-
 async function loadReviews() {
-    // Check if on Beranda (carousel) or Review page (grid)
-    const carouselTrack = document.getElementById('reviews-carousel-track');
-    const carouselHeader = document.getElementById('reviews-carousel-header');
-    const gridContainer = document.getElementById('reviews-grid-container');
-    const gridHeader = document.getElementById('reviews-grid-header');
+  // Check if on Beranda (carousel) or Review page (grid)
+  const carouselTrack = document.getElementById("reviews-carousel-track");
+  const carouselHeader = document.getElementById("reviews-carousel-header");
+  const gridContainer = document.getElementById("reviews-grid-container");
+  const gridHeader = document.getElementById("reviews-grid-header");
 
-    if (!carouselTrack && !gridContainer) return;
+  if (!carouselTrack && !gridContainer) return;
 
-    let displayReviews = [];
+  try {
+    console.log("Mengambil ulasan dari Supabase...");
+    const { data: reviews, error } = await supabase
+      .from("reviews")
+      .select("*")
+      .order("id", { ascending: true });
 
-    try {
-        console.log("Mengambil ulasan dari Supabase...");
-        const { data: reviews, error } = await supabase
-            .from('reviews')
-            .select('*')
-            .order('id', { ascending: true });
+    if (error) throw error;
 
-        if (!error && reviews && reviews.length > 0) {
-            displayReviews = reviews;
-        } else {
-            console.log("Menggunakan ulasan standar...");
-            displayReviews = defaultReviews;
-        }
-    } catch (err) {
-        console.error("Gagal memuat ulasan dari Supabase, menggunakan ulasan standar:", err);
-        displayReviews = defaultReviews;
-    }
+    if (carouselHeader) renderHeaderBar(carouselHeader);
+    if (gridHeader) renderHeaderBar(gridHeader);
 
-    // Render to Beranda Carousel
-    if (carouselTrack) {
-        renderHeaderBar(carouselHeader);
-        carouselTrack.innerHTML = '';
-        const homeReviews = displayReviews.slice(0, 6);
-        homeReviews.forEach(review => {
-            carouselTrack.appendChild(createReviewCard(review));
+    if (reviews && reviews.length > 0) {
+      // Render to Beranda Carousel
+      if (carouselTrack) {
+        carouselTrack.innerHTML = "";
+        const homeReviews = reviews.slice(0, 6);
+        homeReviews.forEach((review) => {
+          carouselTrack.appendChild(createReviewCard(review));
         });
         setupCarousel();
-    }
+      }
 
-    // Render to Review Page Grid
-    if (gridContainer) {
-        renderHeaderBar(gridHeader);
-        gridContainer.innerHTML = '';
-        displayReviews.forEach(review => {
-            gridContainer.appendChild(createReviewCard(review));
+      // Render to Review Page Grid
+      if (gridContainer) {
+        gridContainer.innerHTML = "";
+        reviews.forEach((review) => {
+          gridContainer.appendChild(createReviewCard(review));
         });
+      }
+    } else {
+      if (carouselTrack) {
+        carouselTrack.innerHTML = '<div class="reviews-loading">Belum ada ulasan.</div>';
+      }
+      if (gridContainer) {
+        gridContainer.innerHTML = '<div class="reviews-loading">Belum ada ulasan.</div>';
+      }
     }
+  } catch (err) {
+    console.error("Gagal memuat ulasan dari Supabase:", err);
+    if (carouselTrack) {
+      carouselTrack.innerHTML = '<div class="reviews-loading">Gagal memuat ulasan.</div>';
+    }
+    if (gridContainer) {
+      gridContainer.innerHTML = '<div class="reviews-loading">Gagal memuat ulasan.</div>';
+    }
+  }
 }
 
 function setupCarousel() {
-    const track = document.getElementById('reviews-carousel-track');
-    const prevBtn = document.querySelector('.carousel-control.prev');
-    const nextBtn = document.querySelector('.carousel-control.next');
-    if (!track || !prevBtn || !nextBtn) return;
+  const track = document.getElementById("reviews-carousel-track");
+  const prevBtn = document.querySelector(".carousel-control.prev");
+  const nextBtn = document.querySelector(".carousel-control.next");
+  if (!track || !prevBtn || !nextBtn) return;
 
-    const getCardWidth = () => {
-        const firstCard = track.firstElementChild;
-        if (!firstCard) return 0;
-        const trackStyle = window.getComputedStyle(track);
-        const gap = parseFloat(trackStyle.columnGap) || parseFloat(trackStyle.gap) || 0;
-        return firstCard.offsetWidth + gap;
-    };
+  const getCardWidth = () => {
+    const firstCard = track.firstElementChild;
+    if (!firstCard) return 0;
+    const trackStyle = window.getComputedStyle(track);
+    const gap =
+      parseFloat(trackStyle.columnGap) || parseFloat(trackStyle.gap) || 0;
+    return firstCard.offsetWidth + gap;
+  };
 
-    nextBtn.addEventListener('click', () => {
-        const cardWidth = getCardWidth();
-        track.scrollBy({
-            left: cardWidth,
-            behavior: 'smooth'
-        });
+  nextBtn.addEventListener("click", () => {
+    const cardWidth = getCardWidth();
+    track.scrollBy({
+      left: cardWidth,
+      behavior: "smooth",
     });
+  });
 
-    prevBtn.addEventListener('click', () => {
-        const cardWidth = getCardWidth();
-        track.scrollBy({
-            left: -cardWidth,
-            behavior: 'smooth'
-        });
+  prevBtn.addEventListener("click", () => {
+    const cardWidth = getCardWidth();
+    track.scrollBy({
+      left: -cardWidth,
+      behavior: "smooth",
     });
+  });
 
-    // Auto slide every 6 seconds
-    let autoSlideInterval = setInterval(() => {
-        const cardWidth = getCardWidth();
-        if (cardWidth === 0) return;
-        const isEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 15;
-        if (isEnd) {
-            track.scrollTo({
-                left: 0,
-                behavior: 'smooth'
-            });
-        } else {
-            track.scrollBy({
-                left: cardWidth,
-                behavior: 'smooth'
-            });
-        }
-    }, 6000);
+  // Auto slide every 6 seconds
+  let autoSlideInterval = setInterval(() => {
+    const cardWidth = getCardWidth();
+    if (cardWidth === 0) return;
+    const isEnd =
+      track.scrollLeft + track.clientWidth >= track.scrollWidth - 15;
+    if (isEnd) {
+      track.scrollTo({
+        left: 0,
+        behavior: "smooth",
+      });
+    } else {
+      track.scrollBy({
+        left: cardWidth,
+        behavior: "smooth",
+      });
+    }
+  }, 6000);
 
-    const resetInterval = () => {
-        clearInterval(autoSlideInterval);
-    };
+  const resetInterval = () => {
+    clearInterval(autoSlideInterval);
+  };
 
-    track.addEventListener('mouseenter', resetInterval);
-    track.addEventListener('touchstart', resetInterval, { passive: true });
-    prevBtn.addEventListener('click', resetInterval);
-    nextBtn.addEventListener('click', resetInterval);
+  track.addEventListener("mouseenter", resetInterval);
+  track.addEventListener("touchstart", resetInterval, { passive: true });
+  prevBtn.addEventListener("click", resetInterval);
+  nextBtn.addEventListener("click", resetInterval);
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadReviews);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadReviews);
 } else {
-    loadReviews();
+  loadReviews();
 }
