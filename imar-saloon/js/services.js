@@ -10,11 +10,7 @@ async function loadServices() {
             .select('*')
             .order('id', { ascending: true })
 
-        if (error) {
-            throw error
-        }
-
-        if (services && services.length > 0) {
+        if (!error && services && services.length > 0) {
             container.innerHTML = ''
 
             services.forEach(service => {
