@@ -1,5 +1,33 @@
 import { supabase } from "../connection/supabase.js";
 
+/**
+ * Converts a timestamp (ISO string / Date) to a human-readable relative time.
+ * e.g. "3 weeks ago", "2 months ago", "1 year ago"
+ * This runs on the client every page load, so it's always accurate.
+ */
+function timeAgo(dateInput) {
+  if (!dateInput) return "";
+  const date = new Date(dateInput);
+  if (isNaN(date)) return dateInput; // fallback: return as-is if not a valid date
+
+  const now = new Date();
+  const seconds = Math.floor((now - date) / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours   = Math.floor(minutes / 60);
+  const days    = Math.floor(hours / 24);
+  const weeks   = Math.floor(days / 7);
+  const months  = Math.floor(days / 30);
+  const years   = Math.floor(days / 365);
+
+  if (seconds < 60)  return "just now";
+  if (minutes < 60)  return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+  if (hours < 24)    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  if (days < 7)      return `${days} day${days > 1 ? "s" : ""} ago`;
+  if (weeks < 5)     return `${weeks} week${weeks > 1 ? "s" : ""} ago`;
+  if (months < 12)   return `${months} month${months > 1 ? "s" : ""} ago`;
+  return `${years} year${years > 1 ? "s" : ""} ago`;
+}
+
 function getAvatarColor(name) {
   const colors = [
     "#0f9d58", // Green
@@ -55,7 +83,7 @@ function createReviewCard(review) {
                 </div>
                 <div class="reviewer-meta">
                     <span class="reviewer-name">${review.name}</span>
-                    <span class="review-date">${review.date}</span>
+                    <span class="review-date">${timeAgo(review.date)}</span>
                 </div>
             </div>
             <img class="google-logo" src="https://cdn.trustindex.io/assets/platform/Google/icon.svg" alt="Google">
