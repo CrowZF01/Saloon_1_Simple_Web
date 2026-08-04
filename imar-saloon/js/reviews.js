@@ -119,8 +119,8 @@ function renderHeaderBar(container) {
                     <span class="star-icon full">&#9733;</span>
                     <span class="star-icon full">&#9733;</span>
                 </div>
-                <span class="header-rating-score">4.7</span>
-                <span class="header-reviews-count">| 138 reviews</span>
+                <span class="header-rating-score">4.8</span>
+                <span class="header-reviews-count">| 140 reviews</span>
             </div>
             <a href="https://search.google.com/local/writereview?placeid=ChIJyZQVBthZei4RzENk6aTyZ5Y" target="_blank" class="write-review-btn">Write a review</a>
         </div>
