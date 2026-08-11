@@ -17,9 +17,10 @@ async function loadServices() {
         if (services && services.length > 0) {
             container.innerHTML = ''
 
-            services.forEach(service => {
+            services.forEach((service, index) => {
                 const card = document.createElement('div')
-                card.className = 'service-card'
+                const delayClass = index > 0 ? ` delay-${Math.min(index, 4)}` : ''
+                card.className = `service-card reveal${delayClass}`
 
                 card.innerHTML = `
                     <div class="service-img-wrapper">
@@ -31,6 +32,10 @@ async function loadServices() {
                 `
                 container.appendChild(card)
             })
+
+            if (window.observeRevealElements) {
+                window.observeRevealElements(container)
+            }
         }
     } catch (err) {
         console.error('Error loading services from Supabase:', err)

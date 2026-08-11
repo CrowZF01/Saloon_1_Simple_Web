@@ -44,7 +44,7 @@
 
     <main class="about-page-main">
         <section class="about-hero">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <span class="sub-title">Cerita Sederhana Kami</span>
                 <h2>Tentang Imar Salon</h2>
                 <div class="divider"></div>
@@ -52,7 +52,7 @@
         </section>
 
         <section class="about-story-section">
-            <div class="story-content">
+            <div class="story-content reveal delay-1">
                 <h3>Melayani dengan Tulus & Sepenuh Hati</h3>
                 <p>Selamat datang di <strong>Imar Salon</strong>, salon sederhana yang hadir untuk memenuhi kebutuhan
                     potong rambut dan perawatan rambut Anda. Kami selalu berusaha memberikan perawatan terbaik yang
@@ -62,15 +62,15 @@
 
         <section class="about-images-section">
             <div class="about-images-grid">
-                <div class="about-image-card">
+                <div class="about-image-card reveal">
                     <img src="../assets/photo6.webp" alt="Potong Rambut" width="600" height="600">
                     <div class="image-label"></div>
                 </div>
-                <div class="about-image-card">
+                <div class="about-image-card reveal delay-1">
                     <img src="../assets/photo8.webp" alt="Pewarnaan Rambut" width="600" height="600">
                     <div class="image-label"></div>
                 </div>
-                <div class="about-image-card">
+                <div class="about-image-card reveal delay-2">
                     <img src="../assets/photo10.webp" alt="Perawatan Rambut" width="600" height="600">
                     <div class="image-label"></div>
                 </div>
@@ -79,14 +79,14 @@
 
         <section class="about-info-section">
             <div class="info-grid">
-                <div class="info-card">
+                <div class="info-card reveal">
                     <div class="info-icon">📍</div>
                     <h3>Lokasi Kami</h3>
                     <p class="info-highlight">JL. Demakan no 94, Daerah Istimewa Yogyakarta (DIY), Indonesia</p>
                     <div id="map" class="about-map"></div>
                 </div>
 
-                <div class="info-card">
+                <div class="info-card reveal delay-1">
                     <div class="info-icon">📞</div>
                     <h3>Hubungi Kami</h3>
                     <p class="info-highlight">+62 815-7092-463 <span
@@ -108,7 +108,7 @@
             </div>
         </section>
 
-        <section class="about-creator-section">
+        <section class="about-creator-section reveal">
             <div class="creator-card">
                 <span class="creator-label">Situs Web Dibuat Oleh</span>
                 <h4 class="creator-name">Developed by Felix</h4>
@@ -121,14 +121,14 @@
 
     <footer>
         <div class="footer-container">
-            <div class="footer-col brand-col">
+            <div class="footer-col brand-col reveal">
                 <div class="footer-logo">
                     <img src="../assets/logo_imar.webp" alt="Logo Imar Salon" width="300" height="300">
                 </div>
             </div>
 
             <!-- Quick Links Column -->
-            <div class="footer-col links-col">
+            <div class="footer-col links-col reveal delay-1">
                 <h3>Jelajahi</h3>
                 <ul>
                     <li><a href="../index.html">Beranda</a></li>
@@ -138,14 +138,14 @@
                 </ul>
             </div>
 
-            <div class="footer-col hours-col">
+            <div class="footer-col hours-col reveal delay-2">
                 <h3>Jam Buka</h3>
                 <ul>
                     <li><span>Senin - Minggu</span><span class="hours-time">08:00 - 21:00</span></li>
                 </ul>
             </div>
 
-            <div class="footer-col contact-col">
+            <div class="footer-col contact-col reveal delay-3">
                 <h3>Info Kontak</h3>
                 <p class="contact-item">📍 JL. Demakan no 94, Daerah Istimewa Yogyakarta (DIY), Indonesia</p>
                 <p class="contact-item">📞 +62 815-7092-463 <span style="font-size: 12px; color: #888;">(WhatsApp
@@ -208,6 +208,7 @@
             marker.bindPopup("<strong style='font-family: \"Playfair Display\", serif; color: #c5a880;'>Imar Salon</strong><br><span style='font-family: \"Montserrat\", sans-serif; font-size: 12px; color: #555;'>JL. Demakan no 94, Yogyakarta</span>").openPopup();
         });
     </script>
+    <script type="module" src="../js/reveal.js"></script>
     <script type="module" src="../js/assistant.js"></script>
 </body>
 

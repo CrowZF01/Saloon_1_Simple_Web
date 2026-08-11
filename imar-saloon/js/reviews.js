@@ -72,9 +72,10 @@ function generateStars(rating) {
   return starsHtml;
 }
 
-function createReviewCard(review) {
+function createReviewCard(review, index = 0, addReveal = false) {
   const card = document.createElement("div");
-  card.className = "review-card";
+  const delayClass = index > 0 ? ` delay-${Math.min(index % 4, 4)}` : "";
+  card.className = addReveal ? `review-card reveal${delayClass}` : "review-card";
   card.innerHTML = `
         <div class="review-card-header">
             <div class="reviewer-info">
@@ -162,9 +163,12 @@ async function loadReviews() {
       // Render to Review Page Grid
       if (gridContainer) {
         gridContainer.innerHTML = "";
-        reviews.forEach((review) => {
-          gridContainer.appendChild(createReviewCard(review));
+        reviews.forEach((review, idx) => {
+          gridContainer.appendChild(createReviewCard(review, idx, true));
         });
+        if (window.observeRevealElements) {
+          window.observeRevealElements(gridContainer);
+        }
       }
     } else {
       if (carouselTrack) {
